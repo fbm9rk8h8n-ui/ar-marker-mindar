@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>AR — Box Interleaved</title>
+    <title>AR — Стабильная модель</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
@@ -19,28 +19,37 @@
             padding: 12px;
             font-size: 14px;
             z-index: 100;
-            pointer-events: none;
-            font-family: -apple-system, sans-serif;
-        }
-        .controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            padding: 8px 12px;
-            border-radius: 20px;
-            color: white;
-            font-size: 12px;
-            z-index: 100;
-            font-family: monospace;
+            font-family: sans-serif;
         }
     </style>
 </head>
 <body>
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <!-- 
+      В ЭТУ СТРОКУ добавлены новые параметры:
+      - detectionMode: mono_and_matrix (улучшает распознавание)
+      - matrixCodeType: 3x3 (помогает с 3x3 маркерами)
+    -->
+    <a-scene 
+        embedded 
+        arjs="sourceType: webcam; 
+              debugUIEnabled: false; 
+              detectionMode: mono_and_matrix;
+              matrixCodeType: 3x3;">
         
-        <!-- Маркер "hiro" — распечатайте эту картинку -->
-        <a-marker preset="hiro">
+        <!-- 
+          А В ЭТОТ ТЕГ добавлены параметры сглаживания!
+          - smooth: true (включает сглаживание)
+          - smoothCount: 15 (увеличивает плавность, усредняя 15 последних положений)
+          - smoothTolerance: 0.01 (оставляет значение по умолчанию)
+          - smoothThreshold: 5 (количество измерений для запуска сглаживания)
+        -->
+        <a-marker 
+            preset="hiro"
+            smooth="true"
+            smoothCount="15"
+            smoothTolerance="0.01"
+            smoothThreshold="5">
+            
             <!-- Ваша модель BoxInterleaved -->
             <a-entity 
                 position="0 0 0"
@@ -55,9 +64,6 @@
     
     <div class="info">
         🎯 Наведите камеру на маркер "hiro"
-    </div>
-    <div class="controls">
-        📦 BoxInterleaved.glb
     </div>
 </body>
 </html>
